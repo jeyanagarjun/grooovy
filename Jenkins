@@ -1,0 +1,47 @@
+def gv
+
+
+pipeline {
+	agent any
+	stages{
+	     stage("init") {
+	     		steps {
+	     			script{	
+			 		gv = load "scripted.groovy"
+			 		}
+				 }
+			}
+	     stage ("build"){
+	     	steps {
+	     		script{
+	     			gv.BuildApp()
+	     			}
+	     		}
+	     	}
+	     	 stage ("test"){
+	     		steps {
+	     			script{
+	     				gv.TestApp()
+	     			      }
+	     		}
+	     	}
+	     	 stage ("deploy"){
+	     	steps {
+	     		script{
+	     			gv.DeployApp()
+	     			}
+	     		}
+	     	}
+	 }
+	 
+	 post {
+	 	success {
+	 		echo " done successfully"
+	 		}
+	 	failure {
+	 		echo "its failed"
+	 		}
+		}
+}
+	     		
+			
